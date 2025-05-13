@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Home, File, BarChart, Settings, ArrowLeft } from 'lucide-react';
@@ -65,7 +64,12 @@ const Sidebar: React.FC<SidebarProps> = ({
     >
       <div className="flex items-center justify-between p-4 border-b border-sidebar-border">
         {!collapsed && (
-          <h2 className="text-xl font-bold text-sidebar-primary bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">Dashboard</h2>
+          <div className="relative">
+            <h2 className="text-2xl font-extrabold text-transparent bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text">
+              MAS FLIGHT 
+            </h2>
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 opacity-10 rounded-lg blur-md"></div>
+          </div>
         )}
         <button 
           onClick={() => setCollapsed(!collapsed)}
@@ -88,22 +92,31 @@ const Sidebar: React.FC<SidebarProps> = ({
               <Link
                 to={item.path}
                 className={cn(
-                  "flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200",
-                  activePage === item.id 
-                    ? "bg-sidebar-accent text-sidebar-accent-foreground shadow-md" 
+                  "flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 group",
+                  activePage === item.id
+                    ? "bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white shadow-lg"
                     : "text-sidebar-foreground hover:bg-sidebar-accent/30 hover:text-sidebar-accent-foreground"
                 )}
                 onClick={() => setActivePage(item.id)}
               >
-                <span className={cn(
-                  "inline-flex items-center justify-center",
-                  activePage === item.id 
-                    ? `bg-gradient-to-br ${item.gradientColors} p-2 rounded-md text-white shadow-sm`
-                    : "text-gray-500 group-hover:text-sidebar-accent-foreground"
-                )}>
+                <span
+                  className={cn(
+                    "inline-flex items-center justify-center p-2 rounded-md transition-transform duration-200 group-hover:scale-110 group-hover:shadow-lg",
+                    activePage === item.id
+                      ? `bg-gradient-to-br ${item.gradientColors} text-white shadow-md scale-110`
+                      : "text-gray-500 group-hover:text-sidebar-accent-foreground"
+                  )}
+                  style={{
+                    boxShadow: activePage === item.id ? '0 4px 10px rgba(0, 0, 0, 0.2)' : undefined,
+                  }}
+                >
                   {item.icon}
                 </span>
-                {!collapsed && <span className="ml-3 transition-all">{item.name}</span>}
+                {!collapsed && (
+                  <span className="ml-3 transition-all group-hover:font-semibold">
+                    {item.name}
+                  </span>
+                )}
               </Link>
             </li>
           ))}
